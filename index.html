@@ -832,12 +832,8 @@
                 var lastSlash = currentPath.lastIndexOf('/');
                 var dir = lastSlash >= 0 ? currentPath.substring(0, lastSlash + 1) : '';
                 var redirectURL = dir + 'Ditch_Apples_Company.html';
-                if (window.location.search) {
-                    redirectURL += window.location.search;
-                }
-                if (window.location.hash) {
-                    redirectURL += window.location.hash;
-                }
+                if (window.location.search) redirectURL += window.location.search;
+                if (window.location.hash) redirectURL += window.location.hash;
                 window.location.replace(redirectURL);
                 return;
             }
@@ -847,24 +843,17 @@
             var navLinks = document.getElementById('navLinks');
 
             window.addEventListener('scroll', function() {
-                if (window.scrollY > 40) {
-                    nav.classList.add('scrolled');
-                } else {
-                    nav.classList.remove('scrolled');
-                }
+                if (window.scrollY > 40) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
             });
 
             mobileMenuBtn.addEventListener('click', function() {
                 navLinks.classList.toggle('mobile-open');
-                if (navLinks.classList.contains('mobile-open')) {
-                    mobileMenuBtn.innerHTML = '&#10005;';
-                } else {
-                    mobileMenuBtn.innerHTML = '&#9776;';
-                }
+                if (navLinks.classList.contains('mobile-open')) mobileMenuBtn.innerHTML = '&#10005;';
+                else mobileMenuBtn.innerHTML = '&#9776;';
             });
 
-            var allNavLinks = navLinks.querySelectorAll('a');
-            allNavLinks.forEach(function(link) {
+            navLinks.querySelectorAll('a').forEach(function(link) {
                 link.addEventListener('click', function() {
                     navLinks.classList.remove('mobile-open');
                     mobileMenuBtn.innerHTML = '&#9776;';
@@ -880,10 +869,7 @@
                         e.preventDefault();
                         var navHeight = nav.offsetHeight;
                         var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                     }
                 });
             });
@@ -894,6 +880,13 @@
             var ua = navigator.userAgent || '';
             var isAndroid = /Android/i.test(ua);
             var isWindows = /Windows NT 10|Windows NT 11/i.test(ua) || /Windows 10|Windows 11/i.test(ua);
+
+            if (!isAndroid && !isWindows) {
+                alert('OrientGod Platform APP 仅支持 Android 5-14 及 Windows 10-11 操作系统。
+
+请使用兼容设备访问本页面进行下载。');
+                return;
+            }
 
             fetch('https://orientgod.github.io/OrientGod_Platform_Url/config.json')
                 .then(function(response) {
@@ -906,31 +899,17 @@
                         alert('配置加载失败，请稍后重试。');
                         return;
                     }
-
                     if (isAndroid) {
                         var downloadUrl = baseUrl + '/Download-Android_OGPT-APK';
                         window.location.href = downloadUrl;
                     } else if (isWindows) {
-                        
                         alert('Windows版本暂不支持，我们正在开发中...');
-                        
-                        
-                        
-                    } else {
-                        alert('OrientGod Platform APP 仅支持 Android 5-14 及 Windows 10-11 操作系统。
-
-请使用兼容设备访问本页面进行下载。');
                     }
                 })
                 .catch(function(error) {
                     alert('下载配置加载失败，请检查网络连接后重试。');
                     console.error('Fetch error:', error);
                 });
-        } else if (isWindows) {
-                alert('检测到您正在使用Windows系统。\n\n请通过本页面提供的官方链接下载OrientGod Platform APP。\n\n提示：下载后请确认SHA-256校验值与官网公布一致，确保文件为官方正版。');
-            } else {
-                alert('OrientGod Platform APP 仅支持 Android 5-14 及 Windows 10-11 操作系统。\n\n请使用兼容设备访问本页面进行下载。');
-            }
         }
     </script>
 </body>
